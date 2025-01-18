@@ -23,6 +23,4 @@ void getUserinput() {
   }
 } 
 
-
-//   print(student.values);
-//   print(student);
+// dart run main_screen.dart

@@ -1,7 +1,6 @@
 import 'List_user.dart';
 import 'home_page1.dart';
 import 'logout_user.dart';
-import 'main_screen.dart';
 
 void loginUserCheck(String name, String pass) {
 // List studentData = [
