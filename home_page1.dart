@@ -3,48 +3,71 @@ import 'dart:io';
 import 'List_user.dart';
 import 'logout_user.dart';
 
-void homePage(String name) {
+void homePage(String name, [int? counter]) {
+  //check counter
+  // print(getList[counter]["user"]);
+  print("Welcome to Home Page ");
+  print(" ");
   print("cash with draw please press 1");
+  print("  ");
+  print("****************************");
   print("cash deposit please press 2 ");
   String getUserInput = stdin.readLineSync()!;
-  UserList userList = UserList();
+
+  // UserList userList = UserList(); //creat object and get user list
+  // final getList = userList.list; // user list ;
+  final getList = UserList.list;
   if (getUserInput == "1") {
-    // UserList userList = UserList();
-    print("please enter withdraw amount");
-    num withDraw = int.parse(stdin.readLineSync()!);
-    withDrawAmount(withDraw, name, userList);
+    withDrawAmount(name, getList); //withDraw,
   } else if (getUserInput == "2") {
-    // UserList userList = UserList();
-    print("please enter deposit amount");
-    num cashDeposit = int.parse(stdin.readLineSync()!);
-    cashDepositAccount(cashDeposit, name, userList);
+    cashDepositAccount(name, getList); //cashDeposit,
   } else {
     userLogout();
   }
 }
 
-void cashDepositAccount(num cashDeposit, String name, UserList userList) {
-  final data = userList.list.firstWhere((i) => i["user"] == name);
-  if (data["balance"] >= cashDeposit) {
+void cashDepositAccount(String name, List userList) {
+  //num cashDeposit,
+  print("please enter deposit amount");
+  num cashDeposit = int.parse(stdin.readLineSync()!);
+  // final data = userList.firstWhere( (i) => i["user"] == name); // output get key { user , pass , balance }
+
+  if (cashDeposit.toString().isEmpty) {
+    print("your value is empty please enter value ");
+    cashDepositAccount(name, userList);
+  } else if (cashDeposit <= 0) {
+    print("please enter greater then 0 digit");
+    print("===================================");
+    cashDepositAccount(name, userList);
+  } else {
+    final data = updateUserData(name, userList);
     data["balance"] = data["balance"] + cashDeposit;
-    print("transaction successfull your credit is $cashDeposit");
+    print("transaction successfull your deposot amount is $cashDeposit");
     print("======================");
     print("$name your total balance is ${data["balance"]}");
     userLogout();
   }
 }
 
-void withDrawAmount(num value, String name, UserList userList) {
-  final data = userList.list.firstWhere((i) => i["user"] == name);
-  if (data["balance"] >= value) {
-    data["balance"] = data["balance"] - value;
-    print("transaction successfull your debited is $value");
+void withDrawAmount(String name, List userList) {
+  //num withDraw
+  print("please enter withdraw amount");
+  num withDraw = int.parse(stdin.readLineSync()!);
+  // final data = userList.firstWhere((i) => i["user"] == name);
+  final data = updateUserData(name, userList);
+  if (data["balance"] >= withDraw) {
+    data["balance"] = data["balance"] - withDraw;
+    print("transaction successfull your withdraw amount is $withDraw");
     print("======================");
     print("$name your total balance is ${data["balance"]}");
     userLogout();
   } else {
     print("insuffient balance your account balance is ${data["balance"]}");
+    withDrawAmount(name, userList);
   }
 }
+
+Map updateUserData(String name, List user) =>
+    user.firstWhere((i) => i["user"] == name);
 
 // dart run main_screen.dart

@@ -13,7 +13,6 @@ void userLogout() {
     print("Exit");
   } else {
     print("welcome back user login form ");
-
     getUserinput();
   }
 }
