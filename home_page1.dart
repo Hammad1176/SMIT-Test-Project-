@@ -32,18 +32,19 @@ void cashDepositAccount(String name, List userList) {
   num cashDeposit = int.parse(stdin.readLineSync()!);
   // final data = userList.firstWhere( (i) => i["user"] == name); // output get key { user , pass , balance }
 
-  if (cashDeposit.toString().isEmpty) {
-    print("your value is empty please enter value ");
-    cashDepositAccount(name, userList);
-  } else if (cashDeposit <= 0) {
+  if (cashDeposit <= 0) {
     print("please enter greater then 0 digit");
     print("===================================");
     cashDepositAccount(name, userList);
+  }
+  if (cashDeposit.toString().isEmpty) {
+    print("your value is empty please enter value ");
+    cashDepositAccount(name, userList);
   } else {
-    final data = updateUserData(name, userList);
+    final data = updateUserAccountBalance(name, userList);
     data["balance"] = data["balance"] + cashDeposit;
     print("transaction successfull your deposot amount is $cashDeposit");
-    print("======================");
+    print("===========================================================");
     print("$name your total balance is ${data["balance"]}");
     userLogout();
   }
@@ -53,8 +54,14 @@ void withDrawAmount(String name, List userList) {
   //num withDraw
   print("please enter withdraw amount");
   num withDraw = int.parse(stdin.readLineSync()!);
+
   // final data = userList.firstWhere((i) => i["user"] == name);
-  final data = updateUserData(name, userList);
+  final data = updateUserAccountBalance(name, userList);
+  if (data["balance"] == 0) {
+    print(
+        "insuffient balance your account balance is ${data["balance"]} \n please deposit first in your account ");
+    cashDepositAccount(name, userList);
+  }
   if (data["balance"] >= withDraw) {
     data["balance"] = data["balance"] - withDraw;
     print("transaction successfull your withdraw amount is $withDraw");
@@ -62,12 +69,13 @@ void withDrawAmount(String name, List userList) {
     print("$name your total balance is ${data["balance"]}");
     userLogout();
   } else {
-    print("insuffient balance your account balance is ${data["balance"]}");
+    print(
+        "error your withdraw amount is greater then your balance amount \nyour balance amount is ${data["balance"]}");
     withDrawAmount(name, userList);
   }
 }
 
-Map updateUserData(String name, List user) =>
+Map updateUserAccountBalance(String name, List user) =>
     user.firstWhere((i) => i["user"] == name);
 
 // dart run main_screen.dart

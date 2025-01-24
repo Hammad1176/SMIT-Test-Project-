@@ -30,9 +30,9 @@ void loginAndSignUp() {
   print("Account Login Account please enter 2");
   String check = stdin.readLineSync()!;
   if (check == "1") {
-    print("Enter your username");
+    print("Enter Your Name");
     String userName = stdin.readLineSync()!;
-    print("Enter your password");
+    print("Enter Your Password");
     String? userPass = stdin.readLineSync()!;
     if (userName.isEmpty && userPass.isEmpty) {
       userName = userName.isEmpty ? "User name is empty" : " ";

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'List_user.dart';
 import 'main_screen.dart';
 
@@ -14,8 +12,10 @@ signUpUser(
   bool checkUser = false;
   bool checkPass = false;
   for (var element in UserList.list) {
-    if (element["user"] == name.trim() && element["pass"] == pass.trim()) {
+    if (element["user"] == name.trim()) {
       checkUser = true;
+    }
+    if (element["pass"] == pass.trim()) {
       checkPass = true;
     }
   }
@@ -25,16 +25,15 @@ signUpUser(
     // print(UserList.list);
     getUserinput();
   } else {
-    String userPrint = checkUser ? "User is already exist " : "" ;
-    String userPassPrint = checkPass ? "this password is already exist " : "" ;
+    String userPrint = checkUser ? "User is already exist " : "";
+    String userPassPrint = checkPass
+        ? "this password is already exist please enter unique pass "
+        : "";
     print("$userPrint \n$userPassPrint");
-
-    // print("$checkPass  $checkUser");
+    loginAndSignUp();
   }
 }
 
-// void main() {
-//   signUpUser(name: "name", pass: "pass");
-// }
 
-// dart run sign_up_user.dart
+
+// dart run main_screen.dart
